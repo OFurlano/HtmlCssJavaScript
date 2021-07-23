@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula5ex001</title>
+</head>
+<body>
+    <div>
+        <input type="number" id="min" nome="min">
+        <input type="number" id="max" nome="max">
+        <input type="button" value="multiplos" onclick="multiplos()" ></button>
+    </div>
+    
+    <script>
+        function multiplos(){
+            var tmin=document.querySelector("#min")
+            var tmax=document.querySelector("#max")
+            var min= Number(tmin.value)
+            var max= Number(tmax.value) 
+            if(min>max)
+                document.write('valor min maior que o max')
+            for(let i=min;i<+max;i++){
+                if(i%2==0 && i%3==0)
+                    document.write(` ${i}`)
+            }
+        }
+    </script>
+</body>
+</html>
