@@ -6,42 +6,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ex2</title>
     <style>
-        table{text-align: center;visibility: hidden;}
-     
+        
+        #notas{text-align: center;visibility: hidden; background-color: rgb(49, 56, 85);color: tan;}
+
     </style>
     
 </head>
 <body>
-    <h1>Tabela nota do alunos</h1>
+    <button onclick="exibirTabela()">Gerar Relatorio</button>
         <table id="notas" onclick="gerarTabela()">
             <thead>
-                <tr>
-                    <th>TABELA</th>
+                <tr id="cabecalho">
+                    <th class="ra">RA</th>
+                    <th class="nota">Nota 1</th>
+                    <th class="nota">Nota 2</th>
+                    <th class="nota">Nota 3</th>
+                    <th class="media">Media</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>RA</td>
-                    <td>n1</td>
-                    <td>n2</td>
-                    <td>n3</td>
-                </tr>
-                <tr>
-                    <td>a</td>
-                </tr>
-                <tr>
-                    <td>a</td>
-                </tr>
-                <tr>
-                    <td>a</td>
-                </tr>
+            <tbody id="tablebody">
             </tbody>
         </table>
     
         <script>
-            function gerarTabela(){
-                var tabela=document.querySelector("#notas")
-                notas.style.visibility="visible";
+            function exibirTabela(){
+                const tabela=document.querySelector("#notas")
+                notas.style.visibility="visible"
+                gerarRelatorio()
+            }
+            function gerarRelatorio(){
+                for(let i=0;i<=10;i++){
+                    gerarLinha()
+                }
+                gerarRodape()
+            }
+            function gerarRodape(){
+                const listaMediaElementos=document.querySelectorAll('.notaMedia')
+                let mediaTurma=0
+                for(let i=0;i<listaMediaElementos.length;i++){
+                    const elementoHTMLatual=listaMediaElementos[i]
+                    const valordoElemento=elementoHTMLatual.textContent
+                    mediaTurma+=parseInt(valordoElemento)
+                }
+                mediaTurma=(mediaTurma/listaMediaElementos.length).toFixed(2)
+                console.log({mediaTurma})
+                const pai=document.createElement('tr')
+                gerarCel(pai,'Total alunos:')
+                gerarCel(pai,listaMediaElementos.length)
+                gerarCel(pai,'MediaTurma:')
+                gerarCel(pai,mediaTurma)
+                
+
+                const listaElementoAprovacao=document.querySelectorAll('.aprovacao')
+                let porcentagemAprovados=0
+                for(let i=0;i<listaElementoAprovacao.length;i++){
+                    const elementoAtualAprovacao=listaElementoAprovacao[i]
+                    const textoElemento=elementoAtualAprovacao.textContent
+                    if(textoElemento==='aprovado')
+                        porcentagemAprovados+=1
+                }
+                porcentagemAprovados=porcentagemAprovados*100
+                porcentagemAprovados=(porcentagemAprovados/listaElementoAprovacao.length).toFixed(2)
+                gerarCel(pai,porcentagemAprovados)
+                gerarCel(pai,'% aprovados')
+
+                const corpo=document.querySelector('#tablebody')
+                corpo.appendChild(pai)
+
+
+            }
+
+            function gerarLinha(){
+                const corpo=document.querySelector('#tablebody')
+                const linha=document.createElement('tr')
+                corpo.appendChild(linha)
+
+                const ra=document.createElement('td')
+                ra.classList.add('ra')
+                ra.textContent=gerarRA()
+                linha.appendChild(ra)
+               
+                const notas=gerarNotas()
+                gerarCel(linha,notas.n1)
+                gerarCel(linha,notas.n2)
+                gerarCel(linha,notas.n3)
+                gerarCel(linha,notas.media).classList.add('notaMedia')
+                gerarCel(linha,(notas.aprovado?'aprovado':'reprovado')).classList.add('aprovacao')
+                
+                
+            }
+            function gerarRA(){
+                
+                const min=1000000
+                const max=9999999
+                return gerarNumeroRandom(min,max)
+            }
+            function gerarNotas(){
+                
+                const min=0
+                const max=10
+                const n1 = gerarNumeroRandom(min,max) 
+                const n2 = gerarNumeroRandom(min,max) 
+                const n3 = gerarNumeroRandom(min,max)
+                const media=((n1+n2+n3)/3).toFixed(2)
+                const aprovado = media>6
+                const resultado = {n1,n2,n3,media,aprovado}
+                return resultado
+            }
+
+            function gerarNumeroRandom(min,max){
+                return Math.floor(Math.random()*(max -min))+min
+            }
+            function gerarCel(pai,nota){
+                const novoElementoHTML =document.createElement('td')
+                novoElementoHTML.classList.add('nota')
+                novoElementoHTML.textContent=nota
+                pai.appendChild(novoElementoHTML)
+                if(nota==='aprovado')
+                    novoElementoHTML.style.color='green'
+                else if(nota==='reprovado')
+                    novoElementoHTML.style.color='red'
+                return novoElementoHTML
             }
         </script>
 </body>
