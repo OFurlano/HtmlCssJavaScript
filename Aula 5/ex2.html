@@ -7,8 +7,8 @@
     <title>Ex2</title>
     <style>
         
-        #notas{text-align: center;visibility: hidden; background-color: rgb(49, 56, 85);color: tan;}
-
+        #notas{text-align: center;visibility: hidden; background-color: rgb(49, 56, 85);color: tan;
+            border-collapse: collapse;}
     </style>
     
 </head>
@@ -51,10 +51,10 @@
                 mediaTurma=(mediaTurma/listaMediaElementos.length).toFixed(2)
                 console.log({mediaTurma})
                 const pai=document.createElement('tr')
-                gerarCel(pai,'Total alunos:')
-                gerarCel(pai,listaMediaElementos.length)
-                gerarCel(pai,'MediaTurma:')
-                gerarCel(pai,mediaTurma)
+                gerarCel(pai,'Total alunos:').style.background="green"
+                gerarCel(pai,listaMediaElementos.length).style.background="green"
+                gerarCel(pai,'MediaTurma:').style.background="purple"
+                gerarCel(pai,mediaTurma).style.background="purple"
                 
 
                 const listaElementoAprovacao=document.querySelectorAll('.aprovacao')
@@ -67,13 +67,12 @@
                 }
                 porcentagemAprovados=porcentagemAprovados*100
                 porcentagemAprovados=(porcentagemAprovados/listaElementoAprovacao.length).toFixed(2)
-                gerarCel(pai,porcentagemAprovados)
-                gerarCel(pai,'% aprovados')
+                gerarCel(pai,porcentagemAprovados).style.background="black"
+                gerarCel(pai,'% aprovados').style.background="black"
 
                 const corpo=document.querySelector('#tablebody')
                 corpo.appendChild(pai)
-
-
+                pai.classList.add('pai')
             }
 
             function gerarLinha(){
